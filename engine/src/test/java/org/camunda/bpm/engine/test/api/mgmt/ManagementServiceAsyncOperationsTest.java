@@ -16,9 +16,7 @@
  */
 package org.camunda.bpm.engine.test.api.mgmt;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -94,7 +92,7 @@ public class ManagementServiceAsyncOperationsTest extends AbstractAsyncOperation
     List<Exception> exceptions = executeBatchJobs(batch);
 
     // then
-    assertThat(exceptions.size(), is(0));
+    assertThat(exceptions).isEmpty();
     assertRetries(ids, RETRIES);
     assertHistoricBatchExists(testRule);
   }
@@ -125,7 +123,7 @@ public class ManagementServiceAsyncOperationsTest extends AbstractAsyncOperation
     List<Exception> exceptions = executeBatchJobs(batch);
 
     // then
-    assertThat(exceptions.size(), is(0));
+    assertThat(exceptions).isEmpty();
     assertRetries(ids, RETRIES);
     assertHistoricBatchExists(testRule);
   }
@@ -145,7 +143,7 @@ public class ManagementServiceAsyncOperationsTest extends AbstractAsyncOperation
     executeSeedJobs(batch, 2);
     // then batch jobs with different deployment ids exist
     List<Job> batchJobs = managementService.createJobQuery().jobDefinitionId(batch.getBatchJobDefinitionId()).list();
-    assertThat(batchJobs.size(), is(2));
+    assertThat(batchJobs).hasSize(2);
     assertThat(batchJobs.get(0).getDeploymentId(), IsIn.isOneOf(firstDeploymentId, secondDeploymentId));
     assertThat(batchJobs.get(1).getDeploymentId(), IsIn.isOneOf(firstDeploymentId, secondDeploymentId));
     assertThat(batchJobs.get(0).getDeploymentId(), is(not(batchJobs.get(1).getDeploymentId())));
