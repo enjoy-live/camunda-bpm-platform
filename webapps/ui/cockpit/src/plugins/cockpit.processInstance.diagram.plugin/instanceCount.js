@@ -52,8 +52,14 @@ export default function addInstanceCount(
   const overlays = viewer.get("overlays");
   const elementRegistry = viewer.get("elementRegistry");
 
+  const elements = [];
   elementRegistry.forEach(el => {
     if (activityIdToInstancesMap[el.id] || activityIdToIncidentsMap[el.id]) {
+      const HTML = getBadges(
+        (activityIdToInstancesMap[el.id] || []).length,
+        (activityIdToIncidentsMap[el.id] || []).length
+      );
+
       overlays.add(el, {
         position: {
           bottom: 0,
@@ -63,11 +69,7 @@ export default function addInstanceCount(
           minZoom: -Infinity,
           maxZoom: +Infinity
         },
-        html: getBadges(
-          abbreviateNumber((activityIdToInstancesMap[el.id] || []).length) ||
-            "",
-          abbreviateNumber((activityIdToIncidentsMap[el.id] || []).length) || ""
-        )
+        html: HTML
       });
     }
   });

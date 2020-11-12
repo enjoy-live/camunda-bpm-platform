@@ -15,18 +15,25 @@
  * limitations under the License.
  */
 
-export { CamundaLogo } from "./CamundaLogo";
-export { Clipboard } from "./Clipboard";
-export { DiagramBadge } from "./DiagramBadge";
-export { Dropdown } from "./Dropdown";
-export { EnterpriseComponent } from "./EnterpriseComponent";
-export { GlyphIcon } from "./Icons";
-export { LinkButton } from "./LinkButton";
-export { LoadingIndicator } from "./LoadingIndicator";
-export { Notifications } from "./Notifications";
-export { Pagination } from "./Pagination";
-export { StateCircle } from "./StateCircle";
-export { Table } from "./Table";
-export { ActionButton } from "./ActionButton";
-export { CancelProcessInstance } from "./processInstance/CancelProcessInstance";
-export { ModalFormGroup } from "./ModalFormGroup";
+import React from "react";
+import classNames from "classnames";
+
+import { abbreviateNumber } from "utils/filters";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
+
+export default function DiagramBadge({ count, tooltip, className = "" }) {
+  if (!count) {
+    return null;
+  }
+
+  return (
+    <OverlayTrigger
+      placement="top"
+      overlay={<Tooltip id="badge-tooltip">{tooltip}</Tooltip>}
+    >
+      <span className={classNames("DiagramBadge", className)}>
+        {abbreviateNumber(count)}
+      </span>
+    </OverlayTrigger>
+  );
+}
