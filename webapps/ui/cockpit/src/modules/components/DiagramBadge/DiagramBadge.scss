@@ -1,41 +1,25 @@
-.badge {
+@import "shared-styles/colors.scss";
+
+.DiagramBadge {
   font-size: 12px;
   border-width: 1px;
   border-style: solid;
+  margin-right: 5px;
 
-  background-color: @running-color;
-  border-color: @running-darker;
-  color: @running-darker;
-
-  &.badge-warning {
-    background-color: @warning-color;
-    border-color: @warning-darker;
-    color: @warning-darker;
+  &.InstancesBadge {
+    background-color: $running-color;
+    border-color: darken($running-color, 45);
+    color: darken($running-color, 45);
   }
-
-  &.badge-important {
-    background-color: @important-color;
-    border-color: @important-darker;
+  
+  &.IncidentsBadge {
+    background-color: $important-color;
+    border-color: darken($important-color, 45);
     font-weight: bolder;
-    color: contrast(@important-color);
+    color: #FFF;
   }
 
-  &.activity-instance-completed {
-    background-color: @completed-color;
-    border-color: @completed-darker;
-    color: @completed-darker;
-  }
-
-  &.activity-instance-canceled {
-    background-color: @canceled-color;
-    border-color: @canceled-darker;
-    color: @canceled-darker;
-  }
-
-  &.drag {
-    z-index: 100;
-    opacity: 0.5;
-    position: absolute;
-    .box-shadow(0 0 3px @gray);
+  &[hidden] {
+    opacity: 0;
   }
 }

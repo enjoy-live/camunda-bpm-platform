@@ -15,23 +15,60 @@
  * limitations under the License.
  */
 
-import React from "react";
+import React, { useRef, useState } from "react";
 import classNames from "classnames";
 
 import { abbreviateNumber } from "utils/filters";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
-export default function DiagramBadge({ count, tooltip, className = "" }) {
+import "./DiagramBadge.scss";
+
+export default function DiagramBadge({
+  draggable = false,
+  count,
+  tooltip,
+  onDrag = () => {},
+  onDragEnd = () => {},
+  onDragStart = () => {},
+  className = ""
+}) {
+  const [dragActive, setDragActive] = useState(false);
+
+  const badgeRef = useRef();
   if (!count) {
     return null;
+  }
+
+  function handleDrag(event) {
+    // console.log(event, badgeRef.current);
+    onDrag(event);
+    setDragActive(true);
+    badgeRef.current.setAttribute("style", "opacity: 0");
+  }
+
+  function handleDrop(event) {
+    onDragEnd(event);
+    setDragActive(false);
+    badgeRef.current.setAttribute("style", "");
   }
 
   return (
     <OverlayTrigger
       placement="top"
-      overlay={<Tooltip id="badge-tooltip">{tooltip}</Tooltip>}
+      overlay={
+        <Tooltip className={dragActive ? "hide" : ""} id="badge-tooltip">
+          {tooltip}
+        </Tooltip>
+      }
     >
-      <span className={classNames("DiagramBadge", className)}>
+      <span
+        onDrag={handleDrag}
+        onDragEnd={handleDrop}
+        onDragStart={onDragStart}
+        draggable={draggable}
+        className={classNames("DiagramBadge badge", className)}
+        ref={badgeRef}
+      >
         {abbreviateNumber(count)}
       </span>
     </OverlayTrigger>

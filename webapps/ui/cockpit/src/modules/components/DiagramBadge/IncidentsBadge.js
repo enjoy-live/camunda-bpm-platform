@@ -19,12 +19,13 @@ import React from "react";
 import translate from "utils/translation";
 import DiagramBadge from "./DiagramBadge";
 
-export default function IncidentsBadge({ count }) {
+export default function IncidentsBadge({ count, ...props }) {
   return (
     <DiagramBadge
       tooltip={translate("PLUGIN_ACTIVITY_INSTANCE_OPEN_INCIDENTS")}
       count={count}
       className="IncidentsBadge"
+      {...props}
     />
   );
 }
