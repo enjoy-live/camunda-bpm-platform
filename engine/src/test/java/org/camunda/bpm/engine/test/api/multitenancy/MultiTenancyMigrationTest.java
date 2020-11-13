@@ -16,6 +16,8 @@
  */
 package org.camunda.bpm.engine.test.api.multitenancy;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.util.Arrays;
 
 import org.camunda.bpm.engine.ProcessEngineException;
@@ -60,8 +62,8 @@ public class MultiTenancyMigrationTest {
       Assert.fail("exception expected");
     } catch (ProcessEngineException e) {
       // then
-      Assert.assertThat(e.getMessage(),
-          CoreMatchers.containsString("Cannot migrate process instances between processes of different tenants ('tenant1' != 'tenant2')"));
+      assertThat(e.getMessage()).contains(
+          "Cannot migrate process instances between processes of different tenants ('tenant1' != 'tenant2')"));
     }
   }
 
@@ -152,9 +154,9 @@ public class MultiTenancyMigrationTest {
         .execute();
       Assert.fail("exception expected");
     } catch (ProcessEngineException e) {
-      Assert.assertThat(e.getMessage(),
-          CoreMatchers.containsString("Cannot migrate process instance '" + processInstance.getId()
-              + "' without tenant to a process definition with a tenant ('tenant1')"));
+      assertThat(e.getMessage()).contains(
+          "Cannot migrate process instance '" + processInstance.getId()
+              + "' without tenant to a process definition with a tenant ('tenant1')");
     }
   }
 
